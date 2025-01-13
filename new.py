@@ -143,18 +143,6 @@ if not filtered_data.empty:
     st.subheader(f"Trading Volume for {commodity}")
     fig_volume = px.bar(filtered_data, x='Date', y='Volume', title="Trading Volume")
     st.plotly_chart(fig_volume)
-
-    # Daily Change
-    st.subheader(f"Daily Percentage Change for {commodity}")
-    filtered_data['Daily Change (%)'] = filtered_data['Close'].pct_change() * 100
-    fig_change = px.bar(filtered_data, x='Date', y='Daily Change (%)', title="Daily Percentage Change")
-    st.plotly_chart(fig_change)
-
-    # Price Distribution
-    st.subheader(f"Price Distribution for {commodity}")
-    fig_hist = px.histogram(filtered_data, x='Close', nbins=20, title="Price Distribution")
-    st.plotly_chart(fig_hist)
-
 # Enhanced Candlestick Chart with Moving Averages
 st.subheader(f"Candlestick Chart with Moving Averages (20, 50, 200 Days) for {commodity}")
 if not filtered_data.empty:
@@ -218,6 +206,18 @@ if not filtered_data.empty:
     st.plotly_chart(fig_candlestick)
 else:
     st.warning("Not enough data to create the candlestick chart with moving averages.")
+
+    # Daily Change
+    st.subheader(f"Daily Percentage Change for {commodity}")
+    filtered_data['Daily Change (%)'] = filtered_data['Close'].pct_change() * 100
+    fig_change = px.bar(filtered_data, x='Date', y='Daily Change (%)', title="Daily Percentage Change")
+    st.plotly_chart(fig_change)
+
+    # Price Distribution
+    st.subheader(f"Price Distribution for {commodity}")
+    fig_hist = px.histogram(filtered_data, x='Close', nbins=20, title="Price Distribution")
+    st.plotly_chart(fig_hist)
+
 
 
     
