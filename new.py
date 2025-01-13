@@ -155,6 +155,67 @@ if not filtered_data.empty:
     fig_hist = px.histogram(filtered_data, x='Close', nbins=20, title="Price Distribution")
     st.plotly_chart(fig_hist)
 
+    # Moving Averages Chart
+st.subheader(f"Moving Averages (20, 50, 200 Days) for {commodity}")
+if not filtered_data.empty:
+    # Calculate moving averages
+    filtered_data['MA_20'] = filtered_data['Close'].rolling(window=20).mean()
+    filtered_data['MA_50'] = filtered_data['Close'].rolling(window=50).mean()
+    filtered_data['MA_200'] = filtered_data['Close'].rolling(window=200).mean()
+
+    # Plot the chart
+    fig_ma = go.Figure()
+
+    # Add Close price
+    fig_ma.add_trace(go.Scatter(
+        x=filtered_data['Date'], 
+        y=filtered_data['Close'], 
+        mode='lines', 
+        name='Close Price', 
+        line=dict(color='blue')
+    ))
+
+    # Add 20-day MA
+    fig_ma.add_trace(go.Scatter(
+        x=filtered_data['Date'], 
+        y=filtered_data['MA_20'], 
+        mode='lines', 
+        name='20-Day MA', 
+        line=dict(color='orange')
+    ))
+
+    # Add 50-day MA
+    fig_ma.add_trace(go.Scatter(
+        x=filtered_data['Date'], 
+        y=filtered_data['MA_50'], 
+        mode='lines', 
+        name='50-Day MA', 
+        line=dict(color='green')
+    ))
+
+    # Add 200-day MA
+    fig_ma.add_trace(go.Scatter(
+        x=filtered_data['Date'], 
+        y=filtered_data['MA_200'], 
+        mode='lines', 
+        name='200-Day MA', 
+        line=dict(color='red')
+    ))
+
+    # Customize layout
+    fig_ma.update_layout(
+        title=f"Moving Averages (20, 50, 200 Days) for {commodity}",
+        xaxis_title="Date",
+        yaxis_title="Price",
+        template="plotly_white"
+    )
+
+    # Display chart
+    st.plotly_chart(fig_ma)
+else:
+    st.warning("Not enough data to calculate moving averages.")
+
+    
     # Summary Metrics
     st.sidebar.subheader("Summary Metrics")
     st.sidebar.metric("Total Days", len(filtered_data))
