@@ -155,7 +155,7 @@ if not filtered_data.empty:
     fig_hist = px.histogram(filtered_data, x='Close', nbins=20, title="Price Distribution")
     st.plotly_chart(fig_hist)
 
-    # Moving Averages Chart
+# Moving Averages Chart
 st.subheader(f"Moving Averages (20, 50, 200 Days) for {commodity}")
 if not filtered_data.empty:
     # Calculate moving averages
@@ -215,9 +215,11 @@ if not filtered_data.empty:
 else:
     st.warning("Not enough data to calculate moving averages.")
 
+
     
-    # Summary Metrics
-    st.sidebar.subheader("Summary Metrics")
+   # Summary Metrics
+st.sidebar.subheader("Summary Metrics")
+if not filtered_data.empty:
     st.sidebar.metric("Total Days", len(filtered_data))
     st.sidebar.metric("Average Close Price", round(filtered_data["Close"].mean(), 2))
     st.sidebar.metric("Max High Price", round(filtered_data["High"].max(), 2))
@@ -225,4 +227,8 @@ else:
     st.sidebar.metric("Total Volume", int(filtered_data["Volume"].sum()))
     st.sidebar.metric("Volatility (Std Dev)", round(filtered_data["Close"].std(), 2))
 else:
+    st.sidebar.warning("No data available for summary metrics.")
+
+# Warning for empty dataset
+if filtered_data.empty:
     st.warning("No data available for the selected filters.")
