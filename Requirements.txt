@@ -2,5 +2,5 @@ streamlit
 pandas
 altair
 plotly
-plotly.graph
+plotly.graph_objects
 plotly.express
