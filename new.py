@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 
 # Load the data
-file_path = r".\commodities_with_names_and_tickers_cleaned.csv"
+file_path = "./commodities_with_names_and_tickers_cleaned.csv"
 data = pd.read_csv(file_path)
 
 # Ensure the Date column is in datetime format and timezone-aware
