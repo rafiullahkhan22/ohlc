@@ -155,65 +155,69 @@ if not filtered_data.empty:
     fig_hist = px.histogram(filtered_data, x='Close', nbins=20, title="Price Distribution")
     st.plotly_chart(fig_hist)
 
-# Moving Averages Chart
-st.subheader(f"Moving Averages (20, 50, 200 Days) for {commodity}")
+# Enhanced Candlestick Chart with Moving Averages
+st.subheader(f"Candlestick Chart with Moving Averages (20, 50, 200 Days) for {commodity}")
 if not filtered_data.empty:
     # Calculate moving averages
     filtered_data['MA_20'] = filtered_data['Close'].rolling(window=20).mean()
     filtered_data['MA_50'] = filtered_data['Close'].rolling(window=50).mean()
     filtered_data['MA_200'] = filtered_data['Close'].rolling(window=200).mean()
 
-    # Plot the chart
-    fig_ma = go.Figure()
+    # Create the candlestick chart
+    fig_candlestick = go.Figure()
 
-    # Add Close price
-    fig_ma.add_trace(go.Scatter(
-        x=filtered_data['Date'], 
-        y=filtered_data['Close'], 
-        mode='lines', 
-        name='Close Price', 
-        line=dict(color='blue')
+    # Add candlestick traces
+    fig_candlestick.add_trace(go.Candlestick(
+        x=filtered_data['Date'],
+        open=filtered_data['Open'],
+        high=filtered_data['High'],
+        low=filtered_data['Low'],
+        close=filtered_data['Close'],
+        increasing_line_color='green',
+        decreasing_line_color='red',
+        name='Candlestick'
     ))
 
-    # Add 20-day MA
-    fig_ma.add_trace(go.Scatter(
-        x=filtered_data['Date'], 
-        y=filtered_data['MA_20'], 
-        mode='lines', 
-        name='20-Day MA', 
+    # Add 20-day moving average
+    fig_candlestick.add_trace(go.Scatter(
+        x=filtered_data['Date'],
+        y=filtered_data['MA_20'],
+        mode='lines',
+        name='20-Day MA',
         line=dict(color='orange')
     ))
 
-    # Add 50-day MA
-    fig_ma.add_trace(go.Scatter(
-        x=filtered_data['Date'], 
-        y=filtered_data['MA_50'], 
-        mode='lines', 
-        name='50-Day MA', 
+    # Add 50-day moving average
+    fig_candlestick.add_trace(go.Scatter(
+        x=filtered_data['Date'],
+        y=filtered_data['MA_50'],
+        mode='lines',
+        name='50-Day MA',
         line=dict(color='green')
     ))
 
-    # Add 200-day MA
-    fig_ma.add_trace(go.Scatter(
-        x=filtered_data['Date'], 
-        y=filtered_data['MA_200'], 
-        mode='lines', 
-        name='200-Day MA', 
+    # Add 200-day moving average
+    fig_candlestick.add_trace(go.Scatter(
+        x=filtered_data['Date'],
+        y=filtered_data['MA_200'],
+        mode='lines',
+        name='200-Day MA',
         line=dict(color='red')
     ))
 
-    # Customize layout
-    fig_ma.update_layout(
-        title=f"Moving Averages (20, 50, 200 Days) for {commodity}",
+    # Customize layout for aesthetics
+    fig_candlestick.update_layout(
+        title=f"Candlestick Chart with Moving Averages (20, 50, 200 Days) for {commodity}",
         xaxis_title="Date",
         yaxis_title="Price",
-        template="plotly_white"
+        template="plotly_white",
+        xaxis_rangeslider_visible=False  # Hides range slider for cleaner look
     )
 
-    # Display chart
-    st.plotly_chart(fig_ma)
+    # Display the chart
+    st.plotly_chart(fig_candlestick)
 else:
-    st.warning("Not enough data to calculate moving averages.")
+    st.warning("Not enough data to create the candlestick chart with moving averages.")
 
 
     
